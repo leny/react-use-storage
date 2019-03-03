@@ -1,0 +1,8 @@
+{
+    "parser": "babylon",
+    "singleQuote": false,
+    "tabWidth": 4,
+    "trailingComma": "all",
+    "bracketSpacing": false,
+    "jsxBracketSameLine": true
+}
