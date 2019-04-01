@@ -1,6 +1,6 @@
 {
     "name": "react-use-storage",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "React Hook to handle local and session storage",
     "main": "lib/index.js",
     "module": "src/index.js",
