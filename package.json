@@ -2,11 +2,13 @@
   "name": "react-use-storage",
   "version": "0.2.0",
   "description": "React Hook to handle local and session storage",
-  "main": "lib/index.js",
-  "module": "src/index.js",
+  "main": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
   "scripts": {
-    "build": "npx babel src --out-dir lib",
-    "prepublishOnly": "npx babel src --out-dir lib",
+    "build:cjs": "npx babel src --env-name cjs --out-dir lib/cjs",
+    "build:esm": "npx babel src --env-name esm --out-dir lib/esm",
+    "build": "npm run build:cjs && npm run build:esm",
+    "prepublishOnly": "npm run build",
     "lint": "npx eslint --fix --cache src"
   },
   "repository": {
