@@ -3,6 +3,7 @@
     "version": "0.1.0",
     "description": "React Hook to handle local and session storage",
     "main": "lib/index.js",
+    "module": "src/index.js",
     "scripts": {
         "build": "npx babel src --out-dir lib",
         "prepublishOnly": "npx babel src --out-dir lib",
@@ -13,7 +14,8 @@
         "url": "git+https://github.com/leny/react-use-storage.git"
     },
     "files": [
-        "lib"
+        "lib",
+        "src"
     ],
     "keywords": [
         "react",
