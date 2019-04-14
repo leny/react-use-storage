@@ -18,8 +18,7 @@
     "url": "git+https://github.com/leny/react-use-storage.git"
   },
   "files": [
-    "lib",
-    "src"
+    "lib"
   ],
   "keywords": [
     "react",
