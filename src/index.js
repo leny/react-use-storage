@@ -7,17 +7,20 @@
  */
 
 import {useState, useEffect} from "react";
+import {serialize} from "serialize-javascript";
 
 const evtTarget = new EventTarget();
+
+const deserialize = serializedJavascript => eval(`(${serializedJavascript})`); // eslint-disable-line
 
 const useStorage = storage => (key, defaultValue) => {
     const raw = storage.getItem(key);
 
-    const [value, setValue] = useState(raw ? JSON.parse(raw) : defaultValue);
+    const [value, setValue] = useState(raw ? deserialize(raw) : defaultValue);
 
     const updater = updatedValue => {
         setValue(updatedValue);
-        storage.setItem(key, JSON.stringify(updatedValue));
+        storage.setItem(key, serialize(updatedValue));
         evtTarget.dispatchEvent(
             new CustomEvent("storage_change", {detail: {key}}),
         );
@@ -30,7 +33,7 @@ const useStorage = storage => (key, defaultValue) => {
             if (detail.key === key) {
                 const lraw = storage.getItem(key);
 
-                lraw !== raw && setValue(JSON.parse(lraw));
+                lraw !== raw && setValue(deserialize(lraw));
             }
         };
 

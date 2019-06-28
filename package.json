@@ -60,5 +60,8 @@
   "peerDependencies": {
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0"
+  },
+  "dependencies": {
+    "serialize-javascript": "^1.7.0"
   }
 }
