@@ -7,7 +7,7 @@
  */
 
 import {useState, useEffect} from "react";
-import {serialize} from "serialize-javascript";
+import serialize from "serialize-javascript";
 
 const evtTarget = new EventTarget();
 
