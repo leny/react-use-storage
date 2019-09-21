@@ -15,9 +15,12 @@ const useStorage = storage => (key, defaultValue) => {
 
     const [value, setValue] = useState(raw ? JSON.parse(raw) : defaultValue);
 
-    const updater = updatedValue => {
+    const updater = (updatedValue, remove = false) => {
         setValue(updatedValue);
-        storage.setItem(key, JSON.stringify(updatedValue));
+        storage[remove ? "removeItem" : "setItem"](
+            key,
+            JSON.stringify(updatedValue),
+        );
         evtTarget.dispatchEvent(
             new CustomEvent("storage_change", {detail: {key}}),
         );
@@ -38,7 +41,11 @@ const useStorage = storage => (key, defaultValue) => {
         return () => evtTarget.removeEventListener("storage_change", listener);
     });
 
-    return [value, updater];
+    return [
+        value,
+        updatedValue => updater(updatedValue),
+        () => updater(null, true),
+    ];
 };
 
 export const useLocalStorage = useStorage(localStorage);
