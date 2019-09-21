@@ -20,7 +20,7 @@ See this hooks as a *useState* hooks that syncs with **local/session storage**.
 	import {useLocalStorage} from "react-use-storage";
 
 	// ...
-		const [value, setValue] = useLocalStorage("key", "default value");
+		const [value, setValue, removeValue] = useLocalStorage("key", "default value");
 
 ```
 
@@ -30,7 +30,7 @@ See this hooks as a *useState* hooks that syncs with **local/session storage**.
 	import {useSessionStorage} from "react-use-storage";
 
 	// ...
-		const [value, setValue] = useSessionStorage("key", "default value");
+		const [value, setValue, removeValue] = useSessionStorage("key", "default value");
 
 ```
 
