@@ -8,7 +8,13 @@
 
 import {useState, useEffect} from "react";
 
-const evtTarget = new EventTarget();
+let evtTarget;
+
+try {
+    evtTarget = new EventTarget();
+} catch {
+    evtTarget = document.createElement("phony");
+}
 
 const useStorage = storage => (key, defaultValue) => {
     const raw = storage.getItem(key);
