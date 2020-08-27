@@ -49,7 +49,7 @@ const useStorage = storage => (key, defaultValue) => {
 
     return [
         value,
-        updatedValue => updater(updatedValue),
+        updater,
         () => updater(null, true),
     ];
 };
