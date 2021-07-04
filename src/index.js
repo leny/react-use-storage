@@ -8,29 +8,40 @@
 
 import {useState, useEffect, useCallback} from "react";
 
+const IS_BROWSER =
+    typeof window !== "undefined" &&
+    typeof navigator !== "undefined" &&
+    typeof document !== "undefined";
+
 let evtTarget;
 
 try {
     evtTarget = new EventTarget();
 } catch {
-    evtTarget = document.createElement("phony");
+    evtTarget = (IS_BROWSER ? document : {})?.createElement?.("phony");
 }
 
-const useStorage = storage => (key, defaultValue) => {
+// SSR Storage simply returns defaultValue
+const useSSRStorage = () => (_, defaultValue) => defaultValue;
+
+const useStorage = (storage) => (key, defaultValue) => {
     const raw = storage.getItem(key);
 
     const [value, setValue] = useState(raw ? JSON.parse(raw) : defaultValue);
 
-    const updater = useCallback((updatedValue, remove = false) => {
-        setValue(updatedValue);
-        storage[remove ? "removeItem" : "setItem"](
-            key,
-            JSON.stringify(updatedValue),
-        );
-        evtTarget.dispatchEvent(
-            new CustomEvent("storage_change", {detail: {key}}),
-        );
-    }, [key]);
+    const updater = useCallback(
+        (updatedValue, remove = false) => {
+            setValue(updatedValue);
+            storage[remove ? "removeItem" : "setItem"](
+                key,
+                JSON.stringify(updatedValue),
+            );
+            evtTarget.dispatchEvent(
+                new CustomEvent("storage_change", {detail: {key}}),
+            );
+        },
+        [key],
+    );
 
     defaultValue != null && !raw && updater(defaultValue);
 
@@ -47,12 +58,12 @@ const useStorage = storage => (key, defaultValue) => {
         return () => evtTarget.removeEventListener("storage_change", listener);
     });
 
-    return [
-        value,
-        updater,
-        () => updater(null, true),
-    ];
+    return [value, updater, () => updater(null, true)];
 };
 
-export const useLocalStorage = useStorage(localStorage);
-export const useSessionStorage = useStorage(sessionStorage);
+export const useLocalStorage = IS_BROWSER
+    ? useStorage(localStorage)
+    : useSSRStorage();
+export const useSessionStorage = IS_BROWSER
+    ? useStorage(sessionStorage)
+    : useSSRStorage();
