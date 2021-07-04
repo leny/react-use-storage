@@ -22,7 +22,7 @@ try {
 }
 
 // SSR Storage simply returns defaultValue
-const useSSRStorage = () => (_, defaultValue) => defaultValue;
+const useSSRStorage = () => (_, defaultValue) => [defaultValue];
 
 const useStorage = (storage) => (key, defaultValue) => {
     const raw = storage.getItem(key);
