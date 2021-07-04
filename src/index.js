@@ -6,7 +6,7 @@
  * started at 03/03/2019
  */
 
-import {useState, useEffect} from "react";
+import {useState, useEffect, useCallback} from "react";
 
 let evtTarget;
 
@@ -21,7 +21,7 @@ const useStorage = storage => (key, defaultValue) => {
 
     const [value, setValue] = useState(raw ? JSON.parse(raw) : defaultValue);
 
-    const updater = (updatedValue, remove = false) => {
+    const updater = useCallback((updatedValue, remove = false) => {
         setValue(updatedValue);
         storage[remove ? "removeItem" : "setItem"](
             key,
@@ -30,7 +30,7 @@ const useStorage = storage => (key, defaultValue) => {
         evtTarget.dispatchEvent(
             new CustomEvent("storage_change", {detail: {key}}),
         );
-    };
+    }, [key]);
 
     defaultValue != null && !raw && updater(defaultValue);
 
