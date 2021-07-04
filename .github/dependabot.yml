@@ -1,27 +1,9 @@
 version: 2
-registries:
-  npm-registry-npm-fontawesome-com:
-    type: npm-registry
-    url: https://npm.fontawesome.com
-    token: "${{secrets.NPM_REGISTRY_NPM_FONTAWESOME_COM_TOKEN}}"
-
 updates:
-- package-ecosystem: npm
-  directory: "/"
-  schedule:
-    interval: daily
-    time: "04:00"
-  open-pull-requests-limit: 10
-  assignees:
-  - leny
-  ignore:
-  - dependency-name: husky
-    versions:
-    - 5.0.9
-    - 5.1.0
-    - 5.1.1
-    - 5.1.2
-    - 5.1.3
-    - 5.2.0
-  registries:
-  - npm-registry-npm-fontawesome-com
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 10
+    assignees:
+      - leny
